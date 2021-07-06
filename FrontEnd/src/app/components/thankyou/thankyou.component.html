@@ -1,0 +1,52 @@
+<div class="section">
+<div class="container">
+  <div class="row d-flex">
+    <div class="col-md-12">
+      <div class="jumbotron text-center">
+        <img src="./../../../assets/img/confirm.jpg" alt="" style="width:250px; height: 250px"><br>
+        <p>Your order has been placed!</p>
+        <hr>
+        <p>
+
+        <p>Order Number : <strong>{{orderId}}</strong></p>
+        <p>Order Date : <strong>{{todayDate | date:'short'}}</strong></p>
+      </div>
+      <div class="col my-4">
+        <div class="table-responsive-sm table-responsive-xl table-responsive-md table-responsive-lg">
+          <table class="table shadow">
+        <thead class="table-dark">
+        <tr>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let p of products">
+          <td class="d-flex align-items-center justify-content-around" >
+            <img [src]="p.image" alt="{{p.title}}" class="order-1" width="100px">
+          </td>
+          <td>{{p.title}}</td>
+          <td>{{p.price | currency:'USD'}}</td>
+          <td>{{p.quantityOrdered}}</td>
+        </tr>
+
+        <tr class="border-0">
+          <td style="border: none;"></td>
+          <td></td>
+          <td><strong>TOTAL</strong></td>
+          <td><strong>{{cartTotal | currency:'USD'}}</strong></td>
+
+        </tr>
+        </tbody>
+      </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+

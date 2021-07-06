@@ -1,0 +1,36 @@
+
+
+.box {
+  transition: box-shadow .4s;
+  float: left;
+
+}
+.box:hover {
+  box-shadow: 0 0 11px rgba(33,33,33,.4);
+}
+.btn.disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/*.thumbnail:hover {
+  -webkit-transform: scale(1.02);
+  -moz-transform: scale(1.02);
+  -o-transform: scale(1.02);
+  transform: scale(1.02);
+  transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+}*/

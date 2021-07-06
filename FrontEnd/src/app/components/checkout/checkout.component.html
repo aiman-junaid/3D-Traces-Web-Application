@@ -1,0 +1,159 @@
+<ngx-spinner
+  bdColor= "rgba(151,149,149,0.4)"
+  size="large"
+  color="orange"
+  type="ball-clip-rotate-pulse"
+  fullScreen="true"
+>
+  <p style="font-size: 20px; color: black">Booking Order...</p>
+</ngx-spinner>
+
+<div class="section" *ngIf="cartData.total > 0">
+  <form [formGroup]="checkoutForm" (ngSubmit)="onCheckout()">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+
+      <div class="col-md-6">
+        <!-- Billing Details -->
+        <div class="billing-details">
+          <div class="section-title">
+            <h3 class="title">Billing address</h3>
+          </div>
+
+          <div class="form-group" >
+            <input class="input" type="text"  formControlName="firstname" class="form-control" name="first-name" placeholder="First Name"  [ngClass]="{ 'is-invalid': isSubmitted && f.firstname.errors }" >
+            <div *ngIf="isSubmitted && f.firstname.errors" class="invalid-feedback">
+              <div *ngIf="f.firstname.errors.required">First Name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input class="input" type="text" formControlName="lastname" class="form-control" name="last-name" placeholder="Last Name" [ngClass]="{ 'is-invalid': isSubmitted && f.lastname.errors }">
+            <div *ngIf="isSubmitted && f.lastname.errors" class="invalid-feedback">
+              <div *ngIf="f.lastname.errors.required">Last Name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input class="input" type="email" name="email" placeholder="Email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': isSubmitted && f.email.errors }">
+            <div *ngIf="isSubmitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+          </div>
+          </div>
+          <div class="form-group">
+            <input class="input" type="text" name="address" placeholder="Address" formControlName="Address" class="form-control" [ngClass]="{ 'is-invalid': isSubmitted && f.Address.errors }">
+            <div *ngIf="isSubmitted && f.Address.errors" class="invalid-feedback">
+              <div *ngIf="f.Address.errors.required">Address is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input class="input" type="text" name="city" placeholder="City" formControlName="City" class="form-control" [ngClass]="{ 'is-invalid': isSubmitted && f.City.errors }">
+            <div *ngIf="isSubmitted && f.City.errors" class="invalid-feedback">
+              <div *ngIf="f.City.errors.required">City is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input class="input" type="text" name="country" placeholder="Country" formControlName="Country" class="form-control" [ngClass]="{ 'is-invalid': isSubmitted && f.Country.errors }">
+            <div *ngIf="isSubmitted && f.Country.errors" class="invalid-feedback">
+              <div *ngIf="f.Country.errors.required">Country is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input class="input" type="tel" name="tel" placeholder="telephone" formControlName="phone" class="form-control" [ngClass]="{ 'is-invalid': isSubmitted && f.phone.errors }">
+            <div *ngIf="isSubmitted && f.Country.errors" class="invalid-feedback">
+            <div *ngIf="f.phone.errors.required">Telephone number is required</div>
+              <div *ngIf="f.phone.errors.pattern">Invalid phone number.</div>
+
+
+            </div>
+            </div>
+
+            <div class="input-checkbox">
+              <input type="checkbox" id="create-account">
+
+            </div>
+        </div>
+
+        <!-- /Billing Details -->
+      </div>
+
+
+      <!-- Order Details -->
+      <div class="col-md-6 order-details">
+        <div class="section-title text-center">
+          <h3 class="title">Your Order</h3>
+        </div>
+        <div class="order-summary " >
+          <div class="order-col">
+            <div><strong>PRODUCT</strong></div>
+            <div><strong>SubTotal</strong></div>
+          </div>
+          <div class="order-products">
+            <div class="order-col" *ngFor="let c of cartData.data;">
+              <div><img [src]="c.product.image" alt="{{c.product.name}}" class="img-thumbnail" width="60px"> &nbsp; {{c.numInCart}}x {{c.product.name}}</div>
+              <div>{{(c.product.price*c.numInCart) | currency:'USD'}}</div>
+            </div>
+          </div>
+          <div class="order-col">
+            <div>Shipping</div>
+            <div><strong>FREE</strong></div>
+          </div>
+          <div class="order-col dropdown-divider">
+            <div><strong>TOTAL</strong></div>
+            <div><strong class="order-total">{{cartTotal | currency:'USD'}}</strong></div>
+          </div>
+        </div>
+        <div class="input-checkbox">
+          <input type="checkbox" id="terms">
+        </div>
+        <div class="payment-method" >
+
+          <div class="input-radio">
+            <input type="radio" name="payment" id="payment-3">
+            <label for="payment-3">
+              <span></span>
+              Paypal System
+            </label>
+            <div class="caption">
+              <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+            </div>
+          </div>
+          <div class="input-radio">
+
+            <input type="radio" name="payment" id="payment-1">
+            <label for="payment-1">
+              <span></span>
+              Cash On Delivery
+            </label>
+
+          </div>
+          <div class="input-radio">
+
+            <input type="radio" name="payment" id="payment-2">
+            <label for="payment-2">
+              <span></span>
+              Stripe
+            </label>
+            <div class="caption">
+              <button  class="btn btn-primary btn-block" type="button" (click)="pay(cartTotal)">Pay {{cartTotal | currency:'USD'}}</button>
+             </div>
+
+          </div>
+
+        </div>
+        <button type="submit" class="btn-outline-danger btn-sm my-2 btn-block"  [disabled]="cartTotal <= 0" (click)="onCheckout()">Place order</button>
+      </div>
+      <!-- /Order Details -->
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+  </form>
+</div>
+<!-- /SECTION -->
+
+<div class="text-center my-5" *ngIf="cartData.total <= 0">
+  <h4>Your Cart Is Empty</h4>
+  <button class="btn btn-primary btn-lg mt-3" routerLink="/">GO TO SHOP</button>
+</div>
